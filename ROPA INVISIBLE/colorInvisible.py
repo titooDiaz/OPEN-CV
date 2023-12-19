@@ -1,7 +1,10 @@
 import cv2
 import numpy as np
+import os
 
-cap = cv2.VideoCapture('video1.mp4')
+script_dir = os.path.dirname(os.path.abspath(__file__))
+imagen_path = os.path.join(script_dir, 'video1.mp4')
+cap = cv2.VideoCapture(imagen_path)
 
 bg = None
 
@@ -11,7 +14,6 @@ rojoBajo2 = np.array([170, 150, 40], np.uint8)
 rojoAlto2 = np.array([180, 255, 255], np.uint8)
 
 while True:
-
 	ret, frame = cap.read()
 	if ret == False: break
 
@@ -30,10 +32,6 @@ while True:
 	sinAreaColor = cv2.bitwise_and(frame,frame,mask=maskInv)
 	finalFrame = cv2.addWeighted(areaColor,1,sinAreaColor,1,0)
 	cv2.imshow('Frame',frame)
-	#cv2.imshow('mask', mask)
-	#cv2.imshow('areaColor', areaColor)
-	#cv2.imshow('maskInv',maskInv)
-	#cv2.imshow('sinAreaColor',sinAreaColor)
 	cv2.imshow('finalFrame',finalFrame)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break

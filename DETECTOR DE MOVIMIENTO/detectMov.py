@@ -1,7 +1,10 @@
 import cv2
 import numpy as np
+import os
 
-video = cv2.VideoCapture('Video.mp4')
+script_dir = os.path.dirname(os.path.abspath(__file__))
+imagen_path = os.path.join(script_dir, 'video.mp4')
+video = cv2.VideoCapture(imagen_path)
 
 i = 0
 while True:
@@ -13,11 +16,7 @@ while True:
 	if i > 20:
 		dif = cv2.absdiff(gray, bgGray)
 		_, th = cv2.threshold(dif, 40, 255, cv2.THRESH_BINARY)
-		# Para OpenCV 3
-		#_, cnts, _ = cv2.findContours(th, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-		# Para OpenCV 4
 		cnts, _ = cv2.findContours(th, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-		#cv2.drawContours(frame, cnts, -1, (0,0,255),2)		
 		
 		for c in cnts:
 			area = cv2.contourArea(c)

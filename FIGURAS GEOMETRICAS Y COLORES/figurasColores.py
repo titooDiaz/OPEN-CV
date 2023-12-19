@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import os
 
 def figColor(imagenHSV):
 	# Rojo
@@ -39,12 +40,12 @@ def figColor(imagenHSV):
 	maskVioleta = cv2.inRange(imagenHSV, violetaBajo, violetaAlto)
 	maskRosa = cv2.inRange(imagenHSV, rosaBajo, rosaAlto)
 	
-	cntsRojo = cv2.findContours(maskRojo, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0] #Reemplaza por 1, si tienes OpenCV3	
-	cntsNaranja = cv2.findContours(maskNaranja, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0] #Reemplaza por 1, si tienes OpenCV3
-	cntsAmarillo = cv2.findContours(maskAmarillo, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0] #Reemplaza por 1, si tienes OpenCV3
-	cntsVerde = cv2.findContours(maskVerde, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0] #Reemplaza por 1, si tienes OpenCV3
-	cntsVioleta = cv2.findContours(maskVioleta, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0] #Reemplaza por 1, si tienes OpenCV3
-	cntsRosa = cv2.findContours(maskRosa, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0] #Reemplaza por 1, si tienes OpenCV3
+	cntsRojo = cv2.findContours(maskRojo, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)	
+	cntsNaranja = cv2.findContours(maskNaranja, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+	cntsAmarillo = cv2.findContours(maskAmarillo, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+	cntsVerde = cv2.findContours(maskVerde, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+	cntsVioleta = cv2.findContours(maskVioleta, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+	cntsRosa = cv2.findContours(maskRosa, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 	if len(cntsRojo)>0: color = 'Rojo'
 	elif len(cntsNaranja)>0: color = 'Naranja'
@@ -79,8 +80,11 @@ def figName(contorno,width,height):
 		namefig = 'Circulo'
 
 	return namefig
-	
-imagen = cv2.imread('figurasColores2.png')
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+imagen_path = os.path.join(script_dir, 'figurasColores2.png')
+
+imagen = cv2.imread(imagen_path)
 gray = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
 canny = cv2.Canny(gray, 10,150)
 canny = cv2.dilate(canny,None,iterations=1)
@@ -101,6 +105,4 @@ for c in cnts:
 	cv2.imshow('imagen',imagen)
 	cv2.waitKey(0)
 
-#cv2.imshow('imagen',imagen)
-#cv2.waitKey(0)
 cv2.destroyAllWindows()
